@@ -1,6 +1,8 @@
 const tiles = document.querySelector(".tile-container");
 const keyboard = document.querySelector(".key-container");
-const wordle = "apple";
+const messageDisplay = document.querySelector(".message-container");
+
+const wordle = "APPLE";
 
 const keys = [
   "Q",
@@ -44,6 +46,7 @@ const guessRows = [
 
 let currentRow = 0;
 let currentTile = 0;
+let isGameOver = false;
 
 // To display tiles in the display
 guessRows.forEach((guessRow, guessRowIndex) => {
@@ -84,6 +87,7 @@ const handleClick = (letter) => {
     return;
   }
   if (letter === "ENTER") {
+    checkRow();
     console.log("checked");
     return;
   }
@@ -115,4 +119,36 @@ const deleteLetter = () => {
     guessRows[currentRow][currentTile] = "";
     tile.setAttribute("data", "");
   }
+};
+
+// For checking the answer 'ENTER'
+const checkRow = () => {
+  const guess = guessRows[currentRow].join("");
+
+  if (currentTile === 5) {
+    console.log(guess, wordle);
+    if (wordle === guess) {
+      giveMessage("YEP");
+      isGameOver = true;
+      return;
+    } else {
+      if (currentRow >= 5) {
+        isGameOver = false;
+        giveMessage("NOPE");
+        return;
+      }
+      if (currentRow < 5) {
+        currentRow++;
+        currentTile = 0;
+      }
+    }
+  }
+};
+
+// For displaying message
+const giveMessage = (message) => {
+  const messageElement = document.createElement("p");
+  messageElement.textContent = message;
+  messageDisplay.append(messageElement);
+  setTimeout(() => messageDisplay.removeChild(messageElement), 3000);
 };
