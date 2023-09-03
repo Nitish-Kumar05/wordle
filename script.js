@@ -1,5 +1,6 @@
 const tiles = document.querySelector(".tile-container");
 const keyboard = document.querySelector(".key-container");
+const wordle = "apple";
 
 const keys = [
   "Q",
@@ -41,6 +42,9 @@ const guessRows = [
   ["", "", "", "", ""],
 ];
 
+let currentRow = 0;
+let currentTile = 0;
+
 // To display tiles in the display
 guessRows.forEach((guessRow, guessRowIndex) => {
   const rowElement = document.createElement("div");
@@ -57,19 +61,33 @@ guessRows.forEach((guessRow, guessRowIndex) => {
       "id",
       "guessRow-" + guessRowIndex + "-tile-" + guessIndex
     );
+    tileElement.classList.add("tile");
     rowElement.append(tileElement);
   });
   tiles.append(rowElement);
 });
 
-const handleClick = () => {
-  console.log("clicked");
-};
-
+// For displaying keyboard in the display
 keys.forEach((key) => {
   const buttonElement = document.createElement("button");
   buttonElement.textContent = key;
   buttonElement.setAttribute("id", key);
-  buttonElement.addEventListener("click", handleClick);
+  buttonElement.addEventListener("click", () => handleClick(key));
   keyboard.append(buttonElement);
 });
+
+const handleClick = (letter) => {
+  console.log("clicked", letter);
+  addLetter(letter);
+};
+
+// For adding letters in the tiles
+const addLetter = (letter) => {
+  const tile = document.getElementById(
+    "guessRow-" + currentRow + "-tile-" + currentTile
+  );
+  tile.textContent = letter;
+  guessRows[currentRow][currentTile] = letter;
+  tile.setAttribute("data", letter);
+  currentTile++;
+};
