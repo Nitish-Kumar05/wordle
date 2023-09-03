@@ -78,16 +78,41 @@ keys.forEach((key) => {
 
 const handleClick = (letter) => {
   console.log("clicked", letter);
+  if (letter === "<--") {
+    deleteLetter();
+    console.log("deleted");
+    return;
+  }
+  if (letter === "ENTER") {
+    console.log("checked");
+    return;
+  }
   addLetter(letter);
 };
 
 // For adding letters in the tiles
 const addLetter = (letter) => {
-  const tile = document.getElementById(
-    "guessRow-" + currentRow + "-tile-" + currentTile
-  );
-  tile.textContent = letter;
-  guessRows[currentRow][currentTile] = letter;
-  tile.setAttribute("data", letter);
-  currentTile++;
+  if (currentTile < 5 && currentRow < 6) {
+    const tile = document.getElementById(
+      "guessRow-" + currentRow + "-tile-" + currentTile
+    );
+    tile.textContent = letter;
+    guessRows[currentRow][currentTile] = letter;
+    tile.setAttribute("data", letter);
+    currentTile++;
+    console.log("guessRow", guessRows);
+  }
+};
+
+// For deleting letter '<--'
+const deleteLetter = () => {
+  if (currentTile > 0) {
+    currentTile--;
+    const tile = document.getElementById(
+      "guessRow-" + currentRow + "-tile-" + currentTile
+    );
+    tile.textContent = "";
+    guessRows[currentRow][currentTile] = "";
+    tile.setAttribute("data", "");
+  }
 };
