@@ -32,6 +32,36 @@ const keys = [
   "<--",
 ];
 
+const guessRows = [
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+];
+
+// To display tiles in the display
+guessRows.forEach((guessRow, guessRowIndex) => {
+  const rowElement = document.createElement("div");
+
+  // Appending the guess row index number for easy reference
+  rowElement.setAttribute("id", "guessRow-" + guessRowIndex);
+
+  // To create 5 inside tile elements
+  guessRow.forEach((guess, guessIndex) => {
+    const tileElement = document.createElement("div");
+
+    // Same appending as above for clear reference
+    tileElement.setAttribute(
+      "id",
+      "guessRow-" + guessRowIndex + "-tile-" + guessIndex
+    );
+    rowElement.append(tileElement);
+  });
+  tiles.append(rowElement);
+});
+
 const handleClick = () => {
   console.log("clicked");
 };
